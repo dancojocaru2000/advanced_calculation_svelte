@@ -18,8 +18,13 @@
   let result = null;
 
 	function onOperationSelected(op) {
+    // if (operation) {
+    //   document.getElementById(`op-${operation.name}`).classList.remove('selected')
+    // }
 		operation = op;
+    // document.getElementById(`op-${operation.name}`).classList.add('selected')
     params = Array(operation.args).fill(null);
+    result = null;
     setTimeout(() => {
       // document.getElementById('calculation-pane').scrollIntoView()
     }, 0)
@@ -66,8 +71,6 @@
     }
   }
 
-
-	$: calculationMessage = operation ? 'Input parameters' : '<- Select Operation First';
   $: paramLoopHelper = operation ? Array(operation.args).fill(null).map((_, idx) => idx) : null;
 </script>
 
@@ -81,7 +84,7 @@
 			{#if operations}
 				<ul id="operations-list">
           {#each operations as op (op.name)}
-            <li on:click={onOperationSelected(op)}>{op.name}</li>
+            <li id={`op-${op.name}`} class={operation === op ? 'selected' : ''} on:click={onOperationSelected(op)}>{op.name}</li>
           {/each}
 				</ul>
 			{:else}
@@ -93,8 +96,10 @@
         <div id="params-pane">
           <h2>Input Parameters</h2>
 
-          {#each paramLoopHelper as idx (idx)}
-            <ParameterCard paramNo={idx} on:change={paramChanged}/>
+          {#each paramLoopHelper as idx}
+            {#key operation}
+              <ParameterCard paramNo={idx} on:change={paramChanged} value=""/>
+            {/key}
           {/each}
         </div>
         {#if result}
@@ -139,6 +144,10 @@
 
   #operations-list > li:hover {
     background-color: lightblue;
+  }
+
+  #operations-list > li.selected {
+    background-color: #afafe0;
   }
 
 	#splitview > * {
