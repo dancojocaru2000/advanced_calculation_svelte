@@ -21,7 +21,7 @@
 <main>
 	<div class="card">
 		<h3>Parameter {paramNo + 1}</h3>
-		<input type="number" name={`param${paramNo}`} bind:value on:keyup={keyup} on:change={change}>
+		<input type="number" pattern="[0-9\.]+" name={`param${paramNo}`} bind:value on:keyup={keyup} on:change={change}>
 	</div>
 </main>
 
