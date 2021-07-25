@@ -61,7 +61,7 @@
   function paramChanged(event) {
     console.log(`paramChanged: ${event}`)
     const {paramNo, value} = event.detail;
-    params[paramNo] = parseInt(value);
+    params[paramNo] = parseFloat(value);
 
     if (!params.some(x => !x && x !== 0)) {
       fetchResult();
